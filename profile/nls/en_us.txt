@@ -1,0 +1,33 @@
+# controller
+ND-controller-NAME = Total Connect Controller
+ND-controller-ICON = GenericCtl
+CMD-ctl-DISCOVER-NAME = Re-Discover
+CMD-ctl-UPDATE_PROFILE-NAME = Update Profile
+CMD-ctl-REMOVE_NOTICES_ALL-NAME = Remove Notices
+ST-ctl-ST-NAME = NodeServer Online
+
+# Security Panel Node
+ND-tc_panel-NAME = Security Panel
+ND-tc_panel-ICON = GenericCtl
+ST-panel-GV0-NAME = Armed Status
+ST-panel-GV1-NAME = Low Battery
+ST-panel-GV2-NAME = AC Loss
+CMD-panel-ARM_STAY-NAME = Arm Stay
+CMD-panel-ARM_STAY_NIGHT-NAME = Arm Stay Night
+CMD-panel-ARM_AWAY-NAME = Arm Away
+
+IX_ARM_STATUS-1 = Disarmed
+IX_ARM_STATUS-2 = Disarmed Bypass
+IX_ARM_STATUS-3 = Armed Away
+IX_ARM_STATUS-4 = Armed Away Bypass
+IX_ARM_STATUS-5 = Armed Away Instant
+IX_ARM_STATUS-6 = Armed Away Instant Bypass
+IX_ARM_STATUS-7 = Armed Custom Bypass
+IX_ARM_STATUS-8 = Armed Stay
+IX_ARM_STATUS-9 = Armed Stay Bypass
+IX_ARM_STATUS-10 = Armed Stay Instant
+IX_ARM_STATUS-11 = Armed Stay Instant Bypass
+IX_ARM_STATUS-12 = Armed Stay Night
+IX_ARM_STATUS-13 = Arming
+IX_ARM_STATUS-14 = Disarming
+IX_ARM_STATUS-15 = Unknown

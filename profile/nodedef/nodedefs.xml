@@ -1,0 +1,32 @@
+<nodeDefs>
+    <nodeDef id="controller" nls="ctl">
+        <editors />
+        <sts>
+			<st id="ST" editor="bool" />
+		</sts>
+        <cmds>
+            <sends />
+            <accepts>
+              <cmd id="DISCOVER" />
+              <cmd id="REMOVE_NOTICES_ALL" />
+              <cmd id="UPDATE_PROFILE" />
+            </accepts>
+        </cmds>
+    </nodeDef>
+    <nodeDef id="tc_panel" nls="panel">
+        <editors />
+        <sts>
+            <st id="GV0" editor="armingStatus" />
+            <st id="GV1" editor="bool" />
+            <st id="GV2" editor="bool" />
+        </sts>
+        <cmds>
+            <sends />
+            <accepts>
+                <cmd id="ARM_STAY" />
+                <cmd id="ARM_STAY_NIGHT" />
+                <cmd id="ARM_AWAY" />
+            </accepts>
+        </cmds>
+    </nodeDef>
+</nodeDefs>

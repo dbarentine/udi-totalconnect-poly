@@ -1,0 +1,2 @@
+pgc_interface>=1.0.0
+total-connect-client>=0.22
