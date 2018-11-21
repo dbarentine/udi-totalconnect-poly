@@ -8,6 +8,6 @@ This project is a node server to integrate Honeywell Total Connect v2 security s
 * total-connect-client python library
 
 ## Installation
-* Clone into your polyglot/home/nodeservers directory.
+* Clone into your polyglot nodeservers directory.
 * Run install.sh to install dependencies
 * Update the user/password in the configuration and restart the node server
