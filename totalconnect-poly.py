@@ -47,10 +47,10 @@ class Controller(polyinterface.Controller):
         self.tc = None
 
         # Don't enable in deployed node server. I use these so I can run/debug directly in IntelliJ.
-        LOGGER.debug("Profile Num: " + os.environ.get('PROFILE_NUM'))
-        LOGGER.debug("MQTT Host: " + os.environ.get('MQTT_HOST'))
-        LOGGER.debug("MQTT Port: " + os.environ.get('MQTT_PORT'))
-        LOGGER.debug("Token: " + os.environ.get('TOKEN'))
+        # LOGGER.debug("Profile Num: " + os.environ.get('PROFILE_NUM'))
+        # LOGGER.debug("MQTT Host: " + os.environ.get('MQTT_HOST'))
+        # LOGGER.debug("MQTT Port: " + os.environ.get('MQTT_PORT'))
+        # LOGGER.debug("Token: " + os.environ.get('TOKEN'))
 
     def start(self):
         LOGGER.info('Started Total Connect Nodeserver')
