@@ -24,6 +24,8 @@ class ArmStatus(Enum):
     ARMED_STAY_NIGHT = 10218
     ARMING = 10307
     DISARMING = 10308
+    ALARM = 10207
+    ALARM_CANCELED = 10213
     UNKNOWN = 0
 
 
@@ -42,7 +44,9 @@ armStatusMap = {
     ArmStatus.ARMED_STAY_NIGHT: 12,
     ArmStatus.ARMING: 13,
     ArmStatus.DISARMING: 14,
-    ArmStatus.UNKNOWN: 15
+    ArmStatus.ALARM: 15,
+    ArmStatus.ALARM_CANCELED: 16,
+    ArmStatus.UNKNOWN: 17
 }
 
 
@@ -50,7 +54,7 @@ class SecurityPanel(polyinterface.Node):
 
     def __init__(self, controller, primary, address, name, tc, panel_location):
         super(SecurityPanel, self).__init__(controller, primary, address, name)
-        self.tc = tc # TODO: Are there thread safety issues using the same TotalConnectClient?
+        self.tc = tc
         self.location = panel_location
 
     def start(self):
@@ -79,7 +83,7 @@ class SecurityPanel(polyinterface.Node):
 
     def query(self):
         try:
-            # TODO: Are there thread safety issues here?
+            LOGGER.debug("Query zone {}".format(self.address))
             self.tc.keep_alive()
             panel_meta_data = self.tc.get_panel_meta_data(self.location)
             alarm_code = panel_meta_data['PanelMetadataAndStatus']['Partitions']['PartitionInfo'][0]['ArmingState']

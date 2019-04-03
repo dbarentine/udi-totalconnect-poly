@@ -29,4 +29,15 @@
             </accepts>
         </cmds>
     </nodeDef>
+    <nodeDef id="tc_zone" nls="zone">
+        <editors />
+        <sts>
+            <st id="GV0" editor="zoneStatus" />
+            <st id="GV1" editor="bool" />
+        </sts>
+        <cmds>
+            <sends />
+            <accepts />
+        </cmds>
+    </nodeDef>
 </nodeDefs>
