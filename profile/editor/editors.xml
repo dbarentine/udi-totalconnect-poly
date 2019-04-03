@@ -4,6 +4,9 @@
         <range uom="2" subset="0,1" />
     </editor>
     <editor id="armingStatus">
-        <range id="ARM_STATUS" uom="25" subset="1-15" nls="IX_ARM_STATUS" />
+        <range id="ARM_STATUS" uom="25" subset="1-17" nls="IX_ARM_STATUS" />
+    </editor>
+    <editor id="zoneStatus">
+        <range id="ZONE_STATUS" uom="25" subset="1-8" nls="IX_ZONE_STATUS" />
     </editor>
 </editors>

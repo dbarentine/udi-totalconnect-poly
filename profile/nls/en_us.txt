@@ -16,6 +16,12 @@ CMD-panel-ARM_STAY-NAME = Arm Stay
 CMD-panel-ARM_STAY_NIGHT-NAME = Arm Stay Night
 CMD-panel-ARM_AWAY-NAME = Arm Away
 
+# Zone Node
+ND-tc_zone-NAME = Zone
+ND-tc_zone-ICON = GenericCtl
+ST-zone-GV0-NAME = Zone Status
+ST-zone-GV1-NAME = Can Be Bypassed
+
 IX_ARM_STATUS-1 = Disarmed
 IX_ARM_STATUS-2 = Disarmed Bypass
 IX_ARM_STATUS-3 = Armed Away
@@ -30,4 +36,15 @@ IX_ARM_STATUS-11 = Armed Stay Instant Bypass
 IX_ARM_STATUS-12 = Armed Stay Night
 IX_ARM_STATUS-13 = Arming
 IX_ARM_STATUS-14 = Disarming
-IX_ARM_STATUS-15 = Unknown
+IX_ARM_STATUS-15 = Alarm
+IX_ARM_STATUS-16 = Alarm Canceled
+IX_ARM_STATUS-17 = Unknown
+
+IX_ZONE_STATUS-1 = OK
+IX_ZONE_STATUS-2 = Bypassed
+IX_ZONE_STATUS-3 = Faulted
+IX_ZONE_STATUS-4 = Troubled
+IX_ZONE_STATUS-5 = Tampered
+IX_ZONE_STATUS-6 = Failed
+IX_ZONE_STATUS-7 = Alarm
+IX_ZONE_STATUS-8 = Unknown
