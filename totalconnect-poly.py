@@ -43,7 +43,7 @@ class Controller(polyinterface.Controller):
         self.name = "Total Connect Controller"
         self.user = ""
         self.password = ""
-        self.include_non_bypassable_zones = False
+        self.include_non_bypassable_zones = "false"
         self.tc = None
 
         # Don't enable in deployed node server. I use these so I can run/debug directly in IntelliJ.
