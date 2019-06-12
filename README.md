@@ -11,3 +11,14 @@ This project is a node server to integrate Honeywell Total Connect v2 security s
 * Clone into your polyglot nodeservers directory.
 * Run install.sh to install dependencies
 * Update the user/password in the configuration and restart the node server
+
+### Credentials
+The credentials needed are the same ones you use to log into the TC2 website at https://totalconnect2.com.
+
+The configuration parameters are:
+
+| Parameter |Required?|Description|
+| --------- | ------- | --------- |
+| user      | yes     | TC2 Username |
+| password  | yes     | TC2 Password |
+| include_non_bypassable_zones  | no     | True/False - Specifies if non bypassable zones such as fire and police should be included |
