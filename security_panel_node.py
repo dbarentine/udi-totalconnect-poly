@@ -25,7 +25,8 @@ class ArmStatus(Enum):
     ARMING = 10307
     DISARMING = 10308
     ALARM = 10207
-    ALARM_CANCELED = 10213
+    ALARM_FIRE = 10212
+    ALARM_CARBON = 10213  # Not sure if this is right
     UNKNOWN = 0
 
 
@@ -45,8 +46,9 @@ armStatusMap = {
     ArmStatus.ARMING: 13,
     ArmStatus.DISARMING: 14,
     ArmStatus.ALARM: 15,
-    ArmStatus.ALARM_CANCELED: 16,
-    ArmStatus.UNKNOWN: 17
+    ArmStatus.ALARM_FIRE: 16,
+    ArmStatus.ALARM_CARBON: 17,
+    ArmStatus.UNKNOWN: 18
 }
 
 

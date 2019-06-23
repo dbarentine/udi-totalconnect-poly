@@ -12,6 +12,18 @@ from security_panel_node import SecurityPanel
 from zone_node import Zone
 
 LOGGER = polyinterface.LOGGER
+VALID_DEVICES = ['Security Panel',
+                 'Security System',
+                 'L5100-WiFi',
+                 'Lynx Touch-WiFi',
+                 'ILP5',
+                 'LTE-XV',
+                 'GSMX4G',
+                 'GSMVLP5-4G',
+                 '7874i',
+                 'GSMV4G',
+                 'VISTA-21IP4G'
+                 ]
 
 
 class Controller(polyinterface.Controller):
@@ -88,7 +100,8 @@ class Controller(polyinterface.Controller):
                 # Create devices in location
                 for device in location['DeviceList']['DeviceInfoBasic']:
                     # Add security devices.
-                    if device['DeviceName'] in TotalConnectClient.VALID_DEVICES:
+                    # PanelType appears to only show up for security panels
+                    if device['DeviceName'] in VALID_DEVICES or 'PanelType' in device['DeviceFlags']:
                         self.add_security_device(loc_id, loc_name, device, update)
                     else:
                         LOGGER.warn("Device {} in location {} is not a valid security device".format(device['DeviceName'], loc_name))
