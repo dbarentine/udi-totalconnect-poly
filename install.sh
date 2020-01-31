@@ -17,4 +17,4 @@
     fi;
 
     pip3 install -r requirements.txt --user
-} > totalconnect-install.log
+} > totalconnect-install.log 2>&1
