@@ -5,10 +5,12 @@
     unameValue=$(uname -a)
     echo "uname = $unameValue"
 
-    if [[ $unameValue == *"polisy"* ]]; then
+    if grep -q "polisy" <<< "$unameValue"; then
       echo "Installing py37-zeep"
       pkg update
       pkg install -y py37-zeep
+    else
+      echo "Skipping py37-zeep install"
     fi;
 
     pip3 install -r requirements.txt --user
