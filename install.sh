@@ -5,7 +5,7 @@
     unameValue=$(uname -a)
     echo "uname = $unameValue"
 
-    if [[ "$unameValue" =~ .*"polisy".* ]]; then
+    if echo "$unameValue" | grep -q "polisy"; then
       echo "Installing py37-zeep"
       pkg update
       pkg install -y py37-zeep
