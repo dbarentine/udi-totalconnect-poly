@@ -5,9 +5,10 @@
     platform="$(uname -i)"
     polisyPlatform="POLISY"
 
-    echo "Platform = $platform"
+    echo "Current Shell: $SHELL"
+    echo "Platform: $platform"
 
-    if [[ "$platform" == "$polisyPlatform" ]]; then
+    if [ "$platform" = "$polisyPlatform" ]; then
       echo "Installing py37-zeep"
       pkg update
       pkg install -y py37-zeep
