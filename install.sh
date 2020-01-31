@@ -5,7 +5,7 @@
     unameValue=$(uname -a)
     echo "uname = $unameValue"
 
-    if grep -q "polisy" <<< "$unameValue"; then
+    if [[ "$unameValue" =~ .*"polisy".* ]]; then
       echo "Installing py37-zeep"
       pkg update
       pkg install -y py37-zeep
@@ -14,4 +14,4 @@
     fi;
 
     pip3 install -r requirements.txt --user
-} > /tmp/totalconnect-install.log
+} > totalconnect-install.log
