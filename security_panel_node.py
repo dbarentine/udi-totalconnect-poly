@@ -54,10 +54,12 @@ armStatusMap = {
 
 class SecurityPanel(polyinterface.Node):
 
-    def __init__(self, controller, primary, address, name, tc, panel_location):
+    def __init__(self, controller, primary, address, name, tc, loc_name, loc_id, allow_disarming=False):
         super(SecurityPanel, self).__init__(controller, primary, address, name)
         self.tc = tc
-        self.location = panel_location
+        self.loc_name = loc_name
+        self.loc_id = loc_id
+        self.allow_disarming = allow_disarming
 
     def start(self):
         self.query()
@@ -65,29 +67,41 @@ class SecurityPanel(polyinterface.Node):
     def armStay(self, command):
         try:
             self.tc.keep_alive()
-            self.tc.arm_stay(self.location)
+            self.tc.arm_stay(self.loc_id)
         except Exception as ex:
             LOGGER.error("Arming panel {0} failed {1}".format(self.address, ex))
 
     def armStayNight(self, command):
         try:
             self.tc.keep_alive()
-            self.tc.arm_stay_night(self.location)
+            self.tc.arm_stay_night(self.loc_id)
         except Exception as ex:
             LOGGER.error("Arming panel {0} failed {1}".format(self.address, ex))
 
     def armAway(self, command):
         try:
             self.tc.keep_alive()
-            self.tc.arm_away(self.location)
+            self.tc.arm_away(self.loc_id)
         except Exception as ex:
             LOGGER.error("Arming panel {0} failed {1}".format(self.address, ex))
+
+    def disarm(self, command):
+        try:
+            self.tc.keep_alive()
+
+            if self.allow_disarming:
+                self.tc.disarm(self.loc_id)
+            else:
+                LOGGER.warn("Disarming panel is disabled")
+                self.controller.addNotice({'mynotice': 'The ability to disarm is disabled for security reasons. To enable set allow_disarming to true in the configuration parameters and restart this nodeserver.'})
+        except Exception as ex:
+            LOGGER.error("Disarming panel {0} failed {1}".format(self.address, ex))
 
     def query(self):
         try:
             LOGGER.debug("Query zone {}".format(self.address))
             self.tc.keep_alive()
-            panel_meta_data = self.tc.get_panel_meta_data(self.location)
+            panel_meta_data = self.tc.get_panel_meta_data(self.loc_id)
             alarm_code = panel_meta_data['PanelMetadataAndStatus']['Partitions']['PartitionInfo'][0]['ArmingState']
             low_battery = panel_meta_data['PanelMetadataAndStatus']['IsInLowBattery']
             ac_loss = panel_meta_data['PanelMetadataAndStatus']['IsInACLoss']
@@ -109,5 +123,5 @@ class SecurityPanel(polyinterface.Node):
 
     id = 'tc_panel'
     commands = {
-        'ARM_STAY': armStay, 'ARM_STAY_NIGHT': armStayNight, 'ARM_AWAY': armAway
+        'ARM_STAY': armStay, 'ARM_STAY_NIGHT': armStayNight, 'ARM_AWAY': armAway, 'DISARM': disarm
     }

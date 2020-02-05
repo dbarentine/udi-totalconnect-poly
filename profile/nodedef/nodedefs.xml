@@ -26,6 +26,7 @@
                 <cmd id="ARM_STAY" />
                 <cmd id="ARM_STAY_NIGHT" />
                 <cmd id="ARM_AWAY" />
+                <cmd id="DISARM" />
             </accepts>
         </cmds>
     </nodeDef>

@@ -15,6 +15,7 @@ ST-panel-GV2-NAME = AC Loss
 CMD-panel-ARM_STAY-NAME = Arm Stay
 CMD-panel-ARM_STAY_NIGHT-NAME = Arm Stay Night
 CMD-panel-ARM_AWAY-NAME = Arm Away
+CMD-panel-DISARM-NAME = Disarm
 
 # Zone Node
 ND-tc_zone-NAME = Zone

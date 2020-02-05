@@ -56,6 +56,7 @@ class Controller(polyinterface.Controller):
         self.user = ""
         self.password = ""
         self.include_non_bypassable_zones = "false"
+        self.allow_disarming = "false"
         self.tc = None
 
         # Don't enable in deployed node server. I use these so I can run/debug directly in IntelliJ.
@@ -90,8 +91,8 @@ class Controller(polyinterface.Controller):
             update = len(args) > 0
 
             self.tc = TotalConnectClient.TotalConnectClient(self.user, self.password)
-            self.tc.get_panel_meta_data()  # Ensures we throw a good exception if something is wrong with creds
-            for location in self.tc.locations:
+            locations = self.tc.request("GetSessionDetails(self.token, self.applicationId, self.applicationVersion)")["Locations"]["LocationInfoBasic"]
+            for location in locations:
                 loc_id = location['LocationID']
                 loc_name = location['LocationName']
 
@@ -116,7 +117,7 @@ class Controller(polyinterface.Controller):
         device_addr = "panel_" + str(device['DeviceID'])
         LOGGER.debug("Adding security device {} with name {} for location {}".format(device_addr, device_name, loc_name))
 
-        self.addNode(SecurityPanel(self, device_addr, device_addr, loc_name + " - " + device_name, self.tc, loc_name), update)
+        self.addNode(SecurityPanel(self, device_addr, device_addr, loc_name + " - " + device_name, self.tc, loc_name, loc_id, bool(strtobool(self.allow_disarming))), update)
 
         # create zone nodes
         # We are using GetPanelMetaDataAndFullStatusEx_V1 because we want the extended zone info
@@ -160,8 +161,12 @@ class Controller(polyinterface.Controller):
         if 'include_non_bypassable_zones' in self.polyConfig['customParams']:
             self.include_non_bypassable_zones = self.polyConfig['customParams']['include_non_bypassable_zones']
 
+        if 'allow_disarming' in self.polyConfig['customParams']:
+            self.allow_disarming = self.polyConfig['customParams']['allow_disarming']
+
+
         # Make sure they are in the params
-        self.addCustomParam({'password': self.password, 'user': self.user, "include_non_bypassable_zones": self.include_non_bypassable_zones})
+        self.addCustomParam({'password': self.password, 'user': self.user, "include_non_bypassable_zones": self.include_non_bypassable_zones, "allow_disarming": self.allow_disarming})
 
         # Remove all existing notices
         self.removeNoticesAll()
