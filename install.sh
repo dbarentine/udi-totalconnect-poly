@@ -10,9 +10,8 @@
 
     if [ "$platform" = "$polisyPlatform" ]; then
       echo "Installing py37-zeep"
-      #Still a work in progress
-      #/usr/sbin/pkg update
-      #/usr/sbin/pkg install -y py37-zeep
+      sudo -u polyglot /usr/sbin/pkg update
+      sudo -u polyglot /usr/sbin/pkg install -y py37-zeep
     else
       echo "Skipping py37-zeep install"
     fi;
