@@ -5,7 +5,7 @@ try:
 except ImportError:
     import pgc_interface as polyinterface
 import sys
-import os
+import re
 from distutils.util import strtobool
 from total_connect_client import TotalConnectClient
 from security_panel_node import SecurityPanel
@@ -58,7 +58,7 @@ class Controller(polyinterface.Controller):
         self.include_non_bypassable_zones = "false"
         self.allow_disarming = "false"
         self.tc = None
-
+        self.filter_regex = r'[^a-zA-Z0-9_\- \t\n\r\f\v]+'
         # Don't enable in deployed node server. I use these so I can run/debug directly in IntelliJ.
         # LOGGER.debug("Profile Num: " + os.environ.get('PROFILE_NUM'))
         # LOGGER.debug("MQTT Host: " + os.environ.get('MQTT_HOST'))
@@ -94,7 +94,7 @@ class Controller(polyinterface.Controller):
             locations = self.tc.request("GetSessionDetails(self.token, self.applicationId, self.applicationVersion)")["Locations"]["LocationInfoBasic"]
             for location in locations:
                 loc_id = location['LocationID']
-                loc_name = location['LocationName']
+                loc_name = re.sub(self.filter_regex, '', location['LocationName'])
 
                 LOGGER.debug("Adding devices for location {} with name {}".format(loc_id, loc_name))
 
@@ -120,7 +120,7 @@ class Controller(polyinterface.Controller):
             LOGGER.exception("Discovery failed with error %s", ex)
 
     def add_security_device(self, loc_id, loc_name, device, update):
-        device_name = device['DeviceName']
+        device_name = re.sub(self.filter_regex, '', device['DeviceName'])
         device_addr = "panel_" + str(device['DeviceID'])
         LOGGER.debug("Adding security device {} with name {} for location {}".format(device_addr, device_name, loc_name))
 
@@ -146,7 +146,7 @@ class Controller(polyinterface.Controller):
             LOGGER.warn("Unable to get extended panel information, code {} data {}".format(panel_data["ResultCode"], panel_data["ResultData"]))
 
     def add_zone(self, loc_id, loc_name, device_addr, device_id, zone, update):
-        zone_name = loc_name + " - " + zone.ZoneDescription
+        zone_name = re.sub(self.filter_regex, '', loc_name + " - " + zone.ZoneDescription)
         zone_addr = "z_{}_{}".format(device_id, str(zone.ZoneID))
 
         LOGGER.debug("Adding zone {} with name {} for location {}".format(zone_addr, zone_name, loc_name))
