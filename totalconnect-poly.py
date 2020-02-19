@@ -72,17 +72,24 @@ class Controller(polyinterface.Controller):
             self.setDriver('ST', 1)
 
     def shortPoll(self):
-        self.query()
+        for node in self.nodes:
+            if isinstance(self.nodes[node], SecurityPanel):
+                self.nodes[node].query()
+                self.nodes[node].reportDrivers()
 
     def longPoll(self):
-        pass
+        for node in self.nodes:
+            if isinstance(self.nodes[node], Zone):
+                self.nodes[node].query()
+                self.nodes[node].reportDrivers()
 
     def query(self):
         for node in self.nodes:
             if self.nodes[node] is not self:
                 self.nodes[node].query()
-
-            self.nodes[node].reportDrivers()
+                self.nodes[node].reportDrivers()
+            else:
+                self.reportDrivers()
 
     def discover(self, *args, **kwargs):
         try:
