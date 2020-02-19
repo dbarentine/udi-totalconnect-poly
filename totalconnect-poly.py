@@ -98,8 +98,15 @@ class Controller(polyinterface.Controller):
 
                 LOGGER.debug("Adding devices for location {} with name {}".format(loc_id, loc_name))
 
+                devices = location['DeviceList']['DeviceInfoBasic']
+
+                if devices is None:
+                    raise Exception("No devices were found for location {} - {} \n{}".format(loc_name, loc_id, location))
+
                 # Create devices in location
-                for device in location['DeviceList']['DeviceInfoBasic']:
+                for device in devices:
+                    LOGGER.debug("Found device %s in location %s", device['DeviceName'], loc_name)
+
                     # Add security devices.
                     # PanelType appears to only show up for security panels
                     if device['DeviceName'] in VALID_DEVICES or 'PanelType' in device['DeviceFlags']:
@@ -110,7 +117,7 @@ class Controller(polyinterface.Controller):
                     # If we wanted to support other device types it would go here
         except Exception as ex:
             self.addNotice({'discovery_failed': 'Discovery failed please check logs for a more detailed error.'})
-            LOGGER.error("Discovery failed with error {0}".format(ex))
+            LOGGER.exception("Discovery failed with error %s", ex)
 
     def add_security_device(self, loc_id, loc_name, device, update):
         device_name = device['DeviceName']
@@ -125,6 +132,10 @@ class Controller(polyinterface.Controller):
         if panel_data['ResultCode'] == 0:
             LOGGER.debug("Getting zones for panel {}".format(device_addr))
             zones = panel_data['PanelMetadataAndStatus']['Zones']['ZoneInfoEx']
+
+            if zones is None:
+                raise Exception("No zones were found for {} - {} \n{}".format(device_name, device_addr, panel_data))
+
             for zone in zones:
                 if not bool(zone.CanBeBypassed) and not bool(strtobool(self.include_non_bypassable_zones)):
                     LOGGER.debug("Skipping zone {} with name {}".format(zone.ZoneID, zone.ZoneDescription))
