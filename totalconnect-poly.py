@@ -6,6 +6,7 @@ except ImportError:
     import pgc_interface as polyinterface
 import sys
 import re
+import schedule
 from distutils.util import strtobool
 from total_connect_client import TotalConnectClient
 from security_panel_node import SecurityPanel
@@ -57,8 +58,10 @@ class Controller(polyinterface.Controller):
         self.password = ""
         self.include_non_bypassable_zones = "false"
         self.allow_disarming = "false"
+        self.refresh_auth_interval = "120"
         self.tc = None
         self.filter_regex = r'[^a-zA-Z0-9_\- \t\n\r\f\v]+'
+
         # Don't enable in deployed node server. I use these so I can run/debug directly in IntelliJ.
         # LOGGER.debug("Profile Num: " + os.environ.get('PROFILE_NUM'))
         # LOGGER.debug("MQTT Host: " + os.environ.get('MQTT_HOST'))
@@ -69,6 +72,8 @@ class Controller(polyinterface.Controller):
         LOGGER.info('Started Total Connect Nodeserver')
         if self.check_params():
             self.discover()
+
+            schedule.every(int(self.refresh_auth_interval)).minute.do(self.authenticate)
             self.setDriver('ST', 1)
 
     def shortPoll(self):
@@ -78,6 +83,7 @@ class Controller(polyinterface.Controller):
                 self.nodes[node].reportDrivers()
 
     def longPoll(self):
+        schedule.run_pending()
         for node in self.nodes:
             if isinstance(self.nodes[node], Zone):
                 self.nodes[node].query()
@@ -90,6 +96,13 @@ class Controller(polyinterface.Controller):
                 self.nodes[node].reportDrivers()
             else:
                 self.reportDrivers()
+
+    def authenticate(self):
+        try:
+            LOGGER.info("Re-authenticating")
+            self.tc.authenticate()
+        except Exception as ex:
+            LOGGER.exception("Could not re-authenticate %s", ex)
 
     def discover(self, *args, **kwargs):
         try:
@@ -182,9 +195,11 @@ class Controller(polyinterface.Controller):
         if 'allow_disarming' in self.polyConfig['customParams']:
             self.allow_disarming = self.polyConfig['customParams']['allow_disarming']
 
+        if 'refresh_auth_interval' in self.polyConfig['customParams']:
+            self.refresh_auth_interval = self.polyConfig['customParams']['refresh_auth_interval']
 
         # Make sure they are in the params
-        self.addCustomParam({'password': self.password, 'user': self.user, "include_non_bypassable_zones": self.include_non_bypassable_zones, "allow_disarming": self.allow_disarming})
+        self.addCustomParam({'password': self.password, 'user': self.user, "include_non_bypassable_zones": self.include_non_bypassable_zones, "allow_disarming": self.allow_disarming, "refresh_auth_interval": self.refresh_auth_interval})
 
         # Remove all existing notices
         self.removeNoticesAll()

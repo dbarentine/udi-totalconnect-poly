@@ -22,3 +22,5 @@ The configuration parameters are:
 | user      | yes     | TC2 Username |
 | password  | yes     | TC2 Password |
 | include_non_bypassable_zones  | no     | True/False - Specifies if non bypassable zones such as fire and police should be included |
+| allow_disarming | no | True/False - Specifies if disarming is allowed from the ISY |
+| refresh_auth_interval | no | Integer - Number of minutes between refreshing of the authentication token to the TotalConnect2 API |
