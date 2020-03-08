@@ -73,7 +73,7 @@ class Controller(polyinterface.Controller):
         if self.check_params():
             self.discover()
 
-            schedule.every(int(self.refresh_auth_interval)).minute.do(self.authenticate)
+            schedule.every(int(self.refresh_auth_interval)).minutes.do(self.authenticate)
             self.setDriver('ST', 1)
 
     def shortPoll(self):
@@ -126,6 +126,9 @@ class Controller(polyinterface.Controller):
                 # Create devices in location
                 for device in devices:
                     LOGGER.debug("Found device %s in location %s", device['DeviceName'], loc_name)
+
+                    if device['DeviceName'].lower() == 'automation':
+                        continue
 
                     # Add security devices.
                     # PanelType appears to only show up for security panels
