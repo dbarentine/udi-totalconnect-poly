@@ -91,4 +91,6 @@ class Zone(polyinterface.Node):
     ]
 
     id = 'tc_zone'
-    commands = {}
+    commands = {
+        'QUERY': query
+    }

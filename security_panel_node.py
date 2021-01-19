@@ -101,10 +101,14 @@ class SecurityPanel(polyinterface.Node):
         try:
             LOGGER.debug("Query zone {}".format(self.address))
             self.tc.keep_alive()
-            panel_meta_data = self.tc.get_panel_meta_data(self.loc_id)
-            alarm_code = panel_meta_data['PanelMetadataAndStatus']['Partitions']['PartitionInfo'][0]['ArmingState']
-            low_battery = panel_meta_data['PanelMetadataAndStatus']['IsInLowBattery']
-            ac_loss = panel_meta_data['PanelMetadataAndStatus']['IsInACLoss']
+            self.tc.get_panel_meta_data(self.loc_id)
+            panel_meta_data = self.tc.locations[self.loc_id]
+            alarm_code = self.tc.locations[self.loc_id].arming_state
+            low_battery = self.tc.locations[self.loc_id].is_low_battery()
+            ac_loss = self.tc.locations[self.loc_id].is_ac_loss()
+
+            # TODO Add IsCoverTampered
+            # self.tc.locations[self.loc_id].is_cover_tampered()
 
             self.setDriver('GV0', armStatusMap[ArmStatus(alarm_code)])
             self.setDriver('GV1', int(low_battery))
@@ -123,5 +127,5 @@ class SecurityPanel(polyinterface.Node):
 
     id = 'tc_panel'
     commands = {
-        'ARM_STAY': armStay, 'ARM_STAY_NIGHT': armStayNight, 'ARM_AWAY': armAway, 'DISARM': disarm
+        'ARM_STAY': armStay, 'ARM_STAY_NIGHT': armStayNight, 'ARM_AWAY': armAway, 'DISARM': disarm, 'QUERY': query
     }

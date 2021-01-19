@@ -27,6 +27,7 @@
                 <cmd id="ARM_STAY_NIGHT" />
                 <cmd id="ARM_AWAY" />
                 <cmd id="DISARM" />
+                <cmd id="QUERY" />
             </accepts>
         </cmds>
     </nodeDef>
@@ -38,7 +39,9 @@
         </sts>
         <cmds>
             <sends />
-            <accepts />
+            <accepts>
+                <cmd id="QUERY" />
+            </accepts>
         </cmds>
     </nodeDef>
 </nodeDefs>
