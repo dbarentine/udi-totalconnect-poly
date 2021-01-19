@@ -13,7 +13,7 @@
         {
             "title": "A node server for integration with Honeywell Total Connect v2",
             "author": "Dane Barentine",
-            "version": "1.3.2",
+            "version": "1.3.3",
             "date": "Jan 18, 2021",
             "source": "https://github.com/dbarentine/udi-totalconnect-poly",
             "license": "https://raw.githubusercontent.com/dbarentine/udi-totalconnect-poly/master/LICENSE"

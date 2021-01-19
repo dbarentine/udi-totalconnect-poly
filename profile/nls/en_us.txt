@@ -4,6 +4,7 @@ ND-controller-ICON = GenericCtl
 CMD-ctl-DISCOVER-NAME = Re-Discover
 CMD-ctl-UPDATE_PROFILE-NAME = Update Profile
 CMD-ctl-REMOVE_NOTICES_ALL-NAME = Remove Notices
+CMD-ctl-QUERY-NAME = Query
 ST-ctl-ST-NAME = NodeServer Online
 
 # Security Panel Node
