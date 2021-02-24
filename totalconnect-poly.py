@@ -7,6 +7,7 @@ except ImportError:
 import sys
 import re
 import schedule
+import time
 from distutils.util import strtobool
 from total_connect_client import TotalConnectClient
 from security_panel_node import SecurityPanel
@@ -59,6 +60,7 @@ class Controller(polyinterface.Controller):
         self.include_non_bypassable_zones = "false"
         self.allow_disarming = "false"
         self.refresh_auth_interval = "120"
+        self.zone_query_delay_ms = "1000"
         self.tc = None
         self.filter_regex = r'[^a-zA-Z0-9_\- \t\n\r\f\v]+'
 
@@ -77,23 +79,29 @@ class Controller(polyinterface.Controller):
             self.setDriver('ST', 1)
 
     def shortPoll(self):
+        timeout = int(self.zone_query_delay_ms)
         for node in self.nodes:
             if isinstance(self.nodes[node], SecurityPanel):
                 self.nodes[node].query()
                 self.nodes[node].reportDrivers()
+                time.sleep(timeout / 1000)
 
     def longPoll(self):
+        timeout = int(self.zone_query_delay_ms)
         schedule.run_pending()
         for node in self.nodes:
             if isinstance(self.nodes[node], Zone):
                 self.nodes[node].query()
                 self.nodes[node].reportDrivers()
+                time.sleep(timeout / 1000)
 
     def query(self):
+        timeout = int(self.zone_query_delay_ms)
         for node in self.nodes:
             if self.nodes[node] is not self:
                 self.nodes[node].query()
                 self.nodes[node].reportDrivers()
+                time.sleep(timeout / 1000)
             else:
                 self.reportDrivers()
 
@@ -201,8 +209,11 @@ class Controller(polyinterface.Controller):
         if 'refresh_auth_interval' in self.polyConfig['customParams']:
             self.refresh_auth_interval = self.polyConfig['customParams']['refresh_auth_interval']
 
+        if 'zone_query_delay_ms' in self.polyConfig['customParams']:
+            self.zone_query_delay_ms = self.polyConfig['customParams']['zone_query_delay_ms']
+
         # Make sure they are in the params
-        self.addCustomParam({'password': self.password, 'user': self.user, "include_non_bypassable_zones": self.include_non_bypassable_zones, "allow_disarming": self.allow_disarming, "refresh_auth_interval": self.refresh_auth_interval})
+        self.addCustomParam({'password': self.password, 'user': self.user, "include_non_bypassable_zones": self.include_non_bypassable_zones, "allow_disarming": self.allow_disarming, "refresh_auth_interval": self.refresh_auth_interval, "zone_query_delay_ms": self.zone_query_delay_ms})
 
         # Remove all existing notices
         self.removeNoticesAll()
