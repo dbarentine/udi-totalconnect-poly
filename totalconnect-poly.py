@@ -60,7 +60,7 @@ class Controller(polyinterface.Controller):
         self.include_non_bypassable_zones = "false"
         self.allow_disarming = "false"
         self.refresh_auth_interval = "120"
-        self.zone_query_delay_ms = "1000"
+        self.zone_query_delay_ms = "500"
         self.tc = None
         self.filter_regex = r'[^a-zA-Z0-9_\- \t\n\r\f\v]+'
 
@@ -135,12 +135,12 @@ class Controller(polyinterface.Controller):
                 for device in devices:
                     LOGGER.debug("Found device %s in location %s", device['DeviceName'], loc_name)
 
-                    if device['DeviceName'].lower() == 'automation':
+                    if device['DeviceName'].lower() == 'automation' or device['DeviceName'].lower() == 'video doorbell':
                         continue
 
                     # Add security devices.
                     # PanelType appears to only show up for security panels
-                    if device['DeviceName'] in VALID_DEVICES or 'PanelType' in device['DeviceFlags']:
+                    if device['DeviceName'] in VALID_DEVICES or (device['DeviceFlags'] is not None and 'PanelType' in device['DeviceFlags']):
                         self.add_security_device(loc_id, loc_name, device, update)
                     else:
                         LOGGER.warn("Device {} in location {} is not a valid security device".format(device['DeviceName'], loc_name))
